@@ -13,6 +13,7 @@
 #include "EnhancedInputComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ASpaceShip::ASpaceShip()
@@ -151,6 +152,8 @@ void ASpaceShip::Fire()
 	if (Bullet&&!bIsDead)
 	{
 		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation(), SpawnParameters);
+
+		UGameplayStatics::PlaySoundAtLocation(this, ShootCue, GetActorLocation());
 	}
 }
 
@@ -177,6 +180,9 @@ void ASpaceShip::OnDeath()
 	CollisionComponent->SetVisibility(false,true);
 
 	bIsDead = true;
+
+	//≤•∑≈À¿Õˆ“Ù¿÷
+	UGameplayStatics::PlaySoundAtLocation(this, GameOverCue, GetActorLocation());
 
 	GetWorldTimerManager().SetTimer(TimerHandle_RestartGame, this,&ASpaceShip::ReStartLevel, 2.0f,false);
 }

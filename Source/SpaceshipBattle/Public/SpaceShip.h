@@ -72,6 +72,11 @@ protected:
 
 	void OnDeath();
 
+	UPROPERTY(EditAnywhere,Category="Sound")
+	class USoundCue* GameOverCue;
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundCue* ShootCue;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
