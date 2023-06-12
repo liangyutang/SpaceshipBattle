@@ -21,10 +21,20 @@ protected:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Component")
 	class UBoxComponent* SpawnArea;
+
+	UPROPERTY()
+	class ASpaceShip* SpaceShip;
+
+	float MinimumDistanceToPlayer = 1200.f;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	/**
+	 * @brief 寻找敌人可生成的位置
+	 * @return 敌人生成的位置
+	 */
+	FVector GetGenerateLocation();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
