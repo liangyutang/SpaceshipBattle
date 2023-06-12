@@ -42,8 +42,6 @@ void ABullet::NotifyActorBeginOverlap(AActor* OtherActor)
 
 	if (AEnemy *Enemy =Cast<AEnemy>(OtherActor))
 	{
-		UE_LOG(LogTemp, Error, TEXT("1"));
-
 		//Ïú»Ù
 		Enemy->Destroy();
 		Destroy();

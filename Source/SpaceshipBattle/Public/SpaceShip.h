@@ -50,6 +50,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
 	void LookAtCursor();
 
 	void MoveUp(const FInputActionValue& InputValue);

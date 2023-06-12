@@ -4,6 +4,7 @@
 #include "SpaceShip.h"
 
 #include "Bullet.h"
+#include "Enemy.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -46,6 +47,18 @@ void ASpaceShip::BeginPlay()
 	PC = Cast<APlayerController>(GetController());
 	//ÏÔÊ¾Êó±ê
 	PC->bShowMouseCursor = true;
+}
+
+void ASpaceShip::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorBeginOverlap(OtherActor);
+
+	if (AEnemy* Enemy = Cast<AEnemy>(OtherActor))
+	{
+		//Ïú»Ù
+		Enemy->Destroy();
+		//Destroy();
+	}
 }
 
 // Called every frame
