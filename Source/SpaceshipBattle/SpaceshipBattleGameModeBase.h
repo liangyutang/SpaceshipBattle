@@ -20,5 +20,7 @@ public:
 	void IncreaseScore();
 
 protected:
+
+	UPROPERTY(BlueprintReadOnly)
 	int Score;
 };
