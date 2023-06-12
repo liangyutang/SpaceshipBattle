@@ -13,6 +13,7 @@
 #include "EnhancedInputComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "Sound/SoundCue.h"
 
 // Sets default values
@@ -36,11 +37,17 @@ ASpaceShip::ASpaceShip()
 	SpawnPoint = CreateDefaultSubobject<USceneComponent>("SpawnPoint");
 	SpawnPoint->SetupAttachment(ShipSM);
 
+	//Á£×ÓÏµÍ³
+	ThrusterParticle = CreateDefaultSubobject<UParticleSystemComponent>("ThrusterParticle");
+	ThrusterParticle->SetupAttachment(RootComponent);
+
 	Speed = 2500.f;
 
 	TimeBetweenShot = 0.2f;
 
 	bIsDead = false;
+
+
 }
 
 // Called when the game starts or when spawned
@@ -147,10 +154,9 @@ void ASpaceShip::MoveRight(const FInputActionValue& InputValue)
 
 void ASpaceShip::Fire()
 {
-	FActorSpawnParameters SpawnParameters;
-
 	if (Bullet&&!bIsDead)
 	{
+		const FActorSpawnParameters SpawnParameters;
 		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation(), SpawnParameters);
 
 		UGameplayStatics::PlaySoundAtLocation(this, ShootCue, GetActorLocation());
