@@ -15,9 +15,19 @@ public:
 	// Sets default values for this pawn's properties
 	AEnemy();
 
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void SetColor();
+
 protected:
 
-	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Component")
 	UStaticMeshComponent* ShipSM;
 
 	UPROPERTY(VisibleAnywhere, Category = "Component")
@@ -26,18 +36,13 @@ protected:
 	UPROPERTY()
 	class ASpaceShip* SpaceShip;
 
-	float Speed=300.0f;
+	float Speed = 300.0f;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void MoveTowardsPlayer();
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

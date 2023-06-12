@@ -27,6 +27,7 @@ void AEnemy::BeginPlay()
 	Super::BeginPlay();
 
 	SpaceShip = Cast<ASpaceShip>(UGameplayStatics::GetPlayerPawn(this, 0));
+	SetColor();
 }
 
 void AEnemy::MoveTowardsPlayer()
