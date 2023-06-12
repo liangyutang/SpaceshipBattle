@@ -37,6 +37,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	USceneComponent* SpawnPoint;
 
+
+
 	UPROPERTY()
 	APlayerController* PC;
 

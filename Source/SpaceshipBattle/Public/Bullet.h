@@ -23,6 +23,9 @@ protected:
 	UPROPERTY(VisibleAnywhere,Category="Component")
 	UStaticMeshComponent* BulletSM;
 
+	//Å×Éä×é¼þ
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	class UProjectileMovementComponent* ProjectileMoveComp;
 
 protected:
 	// Called when the game starts or when spawned

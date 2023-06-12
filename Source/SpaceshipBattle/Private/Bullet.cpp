@@ -9,6 +9,8 @@
 
 #include "Bullet.h"
 
+#include "GameFramework/ProjectileMovementComponent.h"
+
 // Sets default values
 ABullet::ABullet()
 {
@@ -21,7 +23,8 @@ ABullet::ABullet()
 	BulletSM = CreateDefaultSubobject<UStaticMeshComponent>("BulletSM");
 	BulletSM->SetupAttachment(RootComp);
 
-
+	//×Óµ¯Å×Éä×é¼þ
+	ProjectileMoveComp = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMoveComp");
 }
 
 // Called when the game starts or when spawned
