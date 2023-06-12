@@ -34,6 +34,8 @@ ASpaceShip::ASpaceShip()
 	SpawnPoint->SetupAttachment(ShipSM);
 
 	Speed = 2500.f;
+
+	TimeBetweenShot = 0.2f;
 }
 
 // Called when the game starts or when spawned
@@ -82,7 +84,8 @@ void ASpaceShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 		if (IA_Fire)
 		{
-			EnhancedInputComponent->BindAction(IA_Fire, ETriggerEvent::Started, this, &ASpaceShip::Fire);
+			EnhancedInputComponent->BindAction(IA_Fire, ETriggerEvent::Started, this, &ASpaceShip::StartFire);
+			EnhancedInputComponent->BindAction(IA_Fire, ETriggerEvent::Completed, this, &ASpaceShip::EndFire);
 		}
 	}
 
@@ -128,6 +131,17 @@ void ASpaceShip::Fire()
 	{
 		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation(), SpawnParameters);
 	}
+}
+
+void ASpaceShip::StartFire()
+{
+
+	GetWorldTimerManager().SetTimer(TimerHandle_BetweenShot, this, &ASpaceShip::Fire, TimeBetweenShot, true, 0.0f);
+}
+
+void ASpaceShip::EndFire()
+{
+	GetWorldTimerManager().ClearTimer(TimerHandle_BetweenShot);
 }
 
 

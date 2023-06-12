@@ -37,14 +37,15 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	USceneComponent* SpawnPoint;
 
-
-
 	UPROPERTY()
 	APlayerController* PC;
 
 	UPROPERTY(EditAnywhere,Category="Fire")
 	TSubclassOf<class ABullet> Bullet;
 
+	FTimerHandle TimerHandle_BetweenShot;
+
+	float TimeBetweenShot;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -56,6 +57,10 @@ protected:
 	void MoveRight(const FInputActionValue& InputValue);
 
 	void Fire();
+
+	void StartFire();
+
+	void EndFire();
 
 public:	
 	// Called every frame
