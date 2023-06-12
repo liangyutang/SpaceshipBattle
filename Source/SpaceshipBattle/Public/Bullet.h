@@ -27,8 +27,6 @@ protected:
 	UPROPERTY()
 	class UProjectileMovementComponent* ProjectileMoveComp;
 
-	UPROPERTY(BlueprintReadWrite)
-	class AEnemySpawner* EnemySpawner;
 
 protected:
 	// Called when the game starts or when spawned

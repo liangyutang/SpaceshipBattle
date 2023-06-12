@@ -13,5 +13,12 @@ UCLASS()
 class SPACESHIPBATTLE_API ASpaceshipBattleGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	ASpaceshipBattleGameModeBase();
+
+	void IncreaseScore();
+
+protected:
+	int Score;
 };

@@ -3,10 +3,12 @@
 
 #include "Enemy.h"
 
+#include "EnemySpawner.h"
 #include "SpaceShip.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "SpaceshipBattle/SpaceshipBattleGameModeBase.h"
 
 // Sets default values
 AEnemy::AEnemy()
@@ -28,6 +30,15 @@ void AEnemy::BeginPlay()
 
 	SpaceShip = Cast<ASpaceShip>(UGameplayStatics::GetPlayerPawn(this, 0));
 	SetColor();
+
+	//获取游戏模式
+	MyGameMode= Cast<ASpaceshipBattleGameModeBase>( UGameplayStatics::GetGameMode(this));
+
+	//获取Enemy生成器
+	TArray<AActor*> EnemySpawnerArray;
+	UGameplayStatics::GetAllActorsOfClass(this, AEnemySpawner::StaticClass(), EnemySpawnerArray);
+	EnemySpawner = Cast<AEnemySpawner>(EnemySpawnerArray[0]);
+
 }
 
 void AEnemy::MoveTowardsPlayer()
@@ -57,5 +68,14 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AEnemy::OnDeath()
+{
+	MyGameMode->IncreaseScore();
+
+	EnemySpawner->DecreaseEnemyCount();
+
+	Destroy();
 }
 

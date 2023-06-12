@@ -25,6 +25,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void SetColor();
 
+	void OnDeath();
+
 protected:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Component")
@@ -38,6 +40,11 @@ protected:
 
 	float Speed = 300.0f;
 
+	UPROPERTY()
+	class ASpaceshipBattleGameModeBase* MyGameMode;
+
+	UPROPERTY(BlueprintReadWrite)
+	class AEnemySpawner* EnemySpawner;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

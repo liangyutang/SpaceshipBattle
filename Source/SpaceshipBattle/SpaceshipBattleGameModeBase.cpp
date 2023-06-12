@@ -3,3 +3,12 @@
 
 #include "SpaceshipBattleGameModeBase.h"
 
+ASpaceshipBattleGameModeBase::ASpaceshipBattleGameModeBase()
+{
+	Score = 0;
+}
+
+void ASpaceshipBattleGameModeBase::IncreaseScore()
+{
+	Score++;
+}

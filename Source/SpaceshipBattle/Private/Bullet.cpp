@@ -35,10 +35,6 @@ ABullet::ABullet()
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
-
-	TArray<AActor*> EnemySpawnerArray;
-	UGameplayStatics::GetAllActorsOfClass(this, AEnemySpawner::StaticClass(), EnemySpawnerArray);
-	EnemySpawner = Cast<AEnemySpawner>(EnemySpawnerArray[0]);
 }
 
 void ABullet::NotifyActorBeginOverlap(AActor* OtherActor)
@@ -48,8 +44,7 @@ void ABullet::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (AEnemy *Enemy =Cast<AEnemy>(OtherActor))
 	{
 		//Ïú»Ù
-		Enemy->Destroy();
-		EnemySpawner->DecreaseEnemyCount();
+		Enemy->OnDeath();
 		Destroy();
 	}
 
