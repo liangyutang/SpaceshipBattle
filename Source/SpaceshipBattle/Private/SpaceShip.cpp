@@ -3,6 +3,7 @@
 
 #include "SpaceShip.h"
 
+#include "Bullet.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -27,7 +28,10 @@ ASpaceShip::ASpaceShip()
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	CameraComponent->SetupAttachment(SpringArmComponent);
-	
+
+	SpawnPoint = CreateDefaultSubobject<USceneComponent>("SpawnPoint");
+	SpawnPoint->SetupAttachment(ShipSM);
+
 	Speed = 2500.f;
 }
 
@@ -74,6 +78,11 @@ void ASpaceShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 		{
 			EnhancedInputComponent->BindAction(IA_Right, ETriggerEvent::Triggered, this, &ASpaceShip::MoveRight);
 		}
+
+		if (IA_Fire)
+		{
+			EnhancedInputComponent->BindAction(IA_Fire, ETriggerEvent::Started, this, &ASpaceShip::Fire);
+		}
 	}
 
 
@@ -108,6 +117,16 @@ void ASpaceShip::MoveRight(const FInputActionValue& InputValue)
 {
 	const float Value = InputValue.GetMagnitude();
 	AddMovementInput(FVector::RightVector,Value);
+}
+
+void ASpaceShip::Fire()
+{
+	FActorSpawnParameters SpawnParameters;
+
+	if (Bullet)
+	{
+		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation(), SpawnParameters);
+	}
 }
 
 

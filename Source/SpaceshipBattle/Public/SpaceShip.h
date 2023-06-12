@@ -34,10 +34,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	class USpringArmComponent* SpringArmComponent;
 
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	USceneComponent* SpawnPoint;
+
 	UPROPERTY()
 	APlayerController* PC;
 
-
+	UPROPERTY(EditAnywhere,Category="Fire")
+	TSubclassOf<class ABullet> Bullet;
 
 protected:
 	// Called when the game starts or when spawned
@@ -48,6 +52,8 @@ protected:
 	void MoveUp(const FInputActionValue& InputValue);
 
 	void MoveRight(const FInputActionValue& InputValue);
+
+	void Fire();
 
 public:	
 	// Called every frame
@@ -67,4 +73,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Move | Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UInputAction> IA_Right;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Move | Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UInputAction> IA_Fire;
 };
