@@ -3,6 +3,7 @@
 
 #include "EnemySpawner.h"
 
+#include "Enemy.h"
 #include "SpaceShip.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -24,6 +25,8 @@ void AEnemySpawner::BeginPlay()
 	Super::BeginPlay();
 
 	SpaceShip= Cast<ASpaceShip>(UGameplayStatics::GetPlayerPawn(this, 0));
+
+	GetWorldTimerManager().SetTimer(TimerHandle_Spawn, this, &AEnemySpawner::SpawnEnemy, SpawnInterval, true,0.0f);
 	
 }
 
@@ -40,6 +43,12 @@ FVector AEnemySpawner::GetGenerateLocation()
 
 	return FindLocation;
 
+}
+
+void AEnemySpawner::SpawnEnemy()
+{
+	const FActorSpawnParameters SpawnParameters;
+	GetWorld()->SpawnActor<AEnemy>(Enemy, GetGenerateLocation(), FRotator::ZeroRotator,SpawnParameters);
 }
 
 // Called every frame

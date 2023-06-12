@@ -15,6 +15,11 @@ public:
 	// Sets default values for this actor's properties
 	AEnemySpawner();
 
+	FTimerHandle TimerHandle_Spawn;
+
+	UPROPERTY(EditAnywhere,Category="Spwan")
+	float SpawnInterval=2;
+
 protected:
 	UPROPERTY(EditAnywhere,Category="Enemy")
 	TSubclassOf<class AEnemy> Enemy;
@@ -35,6 +40,8 @@ protected:
 	 * @return 敌人生成的位置
 	 */
 	FVector GetGenerateLocation();
+
+	void SpawnEnemy();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
