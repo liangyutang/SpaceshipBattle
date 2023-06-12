@@ -9,6 +9,8 @@
 
 #include "Bullet.h"
 
+#include "Enemy.h"
+#include "Engine/BlockingVolume.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
 // Sets default values
@@ -32,6 +34,26 @@ void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ABullet::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorBeginOverlap(OtherActor);
+
+	if (AEnemy *Enemy =Cast<AEnemy>(OtherActor))
+	{
+		UE_LOG(LogTemp, Error, TEXT("1"));
+
+		//销毁
+		Enemy->Destroy();
+		Destroy();
+	}
+
+	//碰到墙面销毁
+	if (Cast<ABlockingVolume>(OtherActor))
+	{
+		Destroy();
+	}
 }
 
 // Called every frame
