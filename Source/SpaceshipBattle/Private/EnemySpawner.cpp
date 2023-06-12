@@ -17,6 +17,9 @@ AEnemySpawner::AEnemySpawner()
 
 	SpawnArea = CreateDefaultSubobject<UBoxComponent>("SpawnArea");
 	SpawnArea->SetupAttachment(RootComponent);
+
+	MaxEnemyNumber = 30;
+	CurrentEnemyCount = 0;
 }
 
 // Called when the game starts or when spawned
@@ -47,10 +50,11 @@ FVector AEnemySpawner::GetGenerateLocation()
 
 void AEnemySpawner::SpawnEnemy()
 {
-	if (!SpaceShip->GetBDead())
+	if (!SpaceShip->GetBDead() && CurrentEnemyCount<MaxEnemyNumber)
 	{
 		const FActorSpawnParameters SpawnParameters;
 		GetWorld()->SpawnActor<AEnemy>(Enemy, GetGenerateLocation(), FRotator::ZeroRotator, SpawnParameters);
+		CurrentEnemyCount++;
 	}
 }
 
@@ -59,5 +63,13 @@ void AEnemySpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AEnemySpawner::DecreaseEnemyCount()
+{
+	if (CurrentEnemyCount>0)
+	{
+		CurrentEnemyCount--;
+	}
 }
 

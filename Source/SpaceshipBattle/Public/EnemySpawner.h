@@ -31,6 +31,12 @@ protected:
 	class ASpaceShip* SpaceShip;
 
 	float MinimumDistanceToPlayer = 1200.f;
+
+	UPROPERTY(EditAnywhere, Category = "Spawn")
+	int MaxEnemyNumber;
+
+	UPROPERTY(EditAnywhere, Category = "Spawn")
+	int CurrentEnemyCount;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -41,9 +47,11 @@ protected:
 	 */
 	FVector GetGenerateLocation();
 
+
 	void SpawnEnemy();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void DecreaseEnemyCount();
 };

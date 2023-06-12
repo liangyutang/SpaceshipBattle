@@ -24,8 +24,11 @@ protected:
 	UStaticMeshComponent* BulletSM;
 
 	//Å×Éä×é¼þ
-	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UPROPERTY()
 	class UProjectileMovementComponent* ProjectileMoveComp;
+
+	UPROPERTY(BlueprintReadWrite)
+	class AEnemySpawner* EnemySpawner;
 
 protected:
 	// Called when the game starts or when spawned

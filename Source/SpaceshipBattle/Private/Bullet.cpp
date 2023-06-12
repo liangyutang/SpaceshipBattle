@@ -10,8 +10,10 @@
 #include "Bullet.h"
 
 #include "Enemy.h"
+#include "EnemySpawner.h"
 #include "Engine/BlockingVolume.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABullet::ABullet()
@@ -33,7 +35,10 @@ ABullet::ABullet()
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	TArray<AActor*> EnemySpawnerArray;
+	UGameplayStatics::GetAllActorsOfClass(this, AEnemySpawner::StaticClass(), EnemySpawnerArray);
+	EnemySpawner = Cast<AEnemySpawner>(EnemySpawnerArray[0]);
 }
 
 void ABullet::NotifyActorBeginOverlap(AActor* OtherActor)
@@ -44,6 +49,7 @@ void ABullet::NotifyActorBeginOverlap(AActor* OtherActor)
 	{
 		//Ïú»Ù
 		Enemy->Destroy();
+		EnemySpawner->DecreaseEnemyCount();
 		Destroy();
 	}
 
