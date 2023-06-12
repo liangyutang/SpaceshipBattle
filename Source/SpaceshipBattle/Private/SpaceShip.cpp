@@ -12,6 +12,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASpaceShip::ASpaceShip()
@@ -37,6 +38,8 @@ ASpaceShip::ASpaceShip()
 	Speed = 2500.f;
 
 	TimeBetweenShot = 0.2f;
+
+	bIsDead = false;
 }
 
 // Called when the game starts or when spawned
@@ -58,6 +61,7 @@ void ASpaceShip::NotifyActorBeginOverlap(AActor* OtherActor)
 		//Ïú»Ù
 		Enemy->Destroy();
 		//Destroy();
+		OnDeath();
 	}
 }
 
@@ -65,10 +69,14 @@ void ASpaceShip::NotifyActorBeginOverlap(AActor* OtherActor)
 void ASpaceShip::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (!bIsDead)
+	{
+		LookAtCursor();
 
-	LookAtCursor();
+		Move(DeltaTime);
+	}
 
-	Move(DeltaTime);
+	
 }
 
 // Called to bind functionality to input
@@ -140,7 +148,7 @@ void ASpaceShip::Fire()
 {
 	FActorSpawnParameters SpawnParameters;
 
-	if (Bullet)
+	if (Bullet&&!bIsDead)
 	{
 		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation(), SpawnParameters);
 	}
@@ -155,6 +163,22 @@ void ASpaceShip::StartFire()
 void ASpaceShip::EndFire()
 {
 	GetWorldTimerManager().ClearTimer(TimerHandle_BetweenShot);
+}
+
+void ASpaceShip::ReStartLevel()
+{
+	
+	UGameplayStatics::OpenLevel(this, "MainMap");
+}
+
+void ASpaceShip::OnDeath()
+{
+
+	CollisionComponent->SetVisibility(false,true);
+
+	bIsDead = true;
+
+	GetWorldTimerManager().SetTimer(TimerHandle_RestartGame, this,&ASpaceShip::ReStartLevel, 2.0f,false);
 }
 
 

@@ -46,7 +46,10 @@ void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	MoveTowardsPlayer();
+	if (!SpaceShip->GetBDead())
+	{
+		MoveTowardsPlayer();
+	}
 }
 
 // Called to bind functionality to input

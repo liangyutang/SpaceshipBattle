@@ -47,8 +47,11 @@ FVector AEnemySpawner::GetGenerateLocation()
 
 void AEnemySpawner::SpawnEnemy()
 {
-	const FActorSpawnParameters SpawnParameters;
-	GetWorld()->SpawnActor<AEnemy>(Enemy, GetGenerateLocation(), FRotator::ZeroRotator,SpawnParameters);
+	if (!SpaceShip->GetBDead())
+	{
+		const FActorSpawnParameters SpawnParameters;
+		GetWorld()->SpawnActor<AEnemy>(Enemy, GetGenerateLocation(), FRotator::ZeroRotator, SpawnParameters);
+	}
 }
 
 // Called every frame

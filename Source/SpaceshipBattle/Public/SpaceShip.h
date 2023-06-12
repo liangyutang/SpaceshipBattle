@@ -46,6 +46,10 @@ protected:
 	FTimerHandle TimerHandle_BetweenShot;
 
 	float TimeBetweenShot;
+
+	FTimerHandle TimerHandle_RestartGame;
+
+	bool bIsDead;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -64,13 +68,20 @@ protected:
 
 	void EndFire();
 
+	void ReStartLevel();
+
+	void OnDeath();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	void Move(float DeltaTime);
+
+	FORCEINLINE bool GetBDead() const { return bIsDead; }
 
 private:
 
