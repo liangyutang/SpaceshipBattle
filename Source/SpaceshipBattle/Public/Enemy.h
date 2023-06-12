@@ -23,9 +23,15 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	class USphereComponent* CollisionComponent;
 
+	UPROPERTY()
+	class ASpaceShip* SpaceShip;
+
+	float Speed=300.0f;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void MoveTowardsPlayer();
 
 public:	
 	// Called every frame

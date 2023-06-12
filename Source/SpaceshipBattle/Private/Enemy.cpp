@@ -3,7 +3,10 @@
 
 #include "Enemy.h"
 
+#include "SpaceShip.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AEnemy::AEnemy()
@@ -22,7 +25,19 @@ AEnemy::AEnemy()
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	SpaceShip = Cast<ASpaceShip>(UGameplayStatics::GetPlayerPawn(this, 0));
+}
+
+void AEnemy::MoveTowardsPlayer()
+{
+	//移动向量
+	const FVector Direction=FVector((SpaceShip->GetActorLocation() - GetActorLocation()).GetSafeNormal());
+
+	//移动
+	AddActorWorldOffset(Direction*Speed*FApp::GetDeltaTime(), true);
+	//旋转
+	SetActorRotation( UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), SpaceShip->GetActorLocation()));
 }
 
 // Called every frame
@@ -30,6 +45,7 @@ void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	MoveTowardsPlayer();
 }
 
 // Called to bind functionality to input
