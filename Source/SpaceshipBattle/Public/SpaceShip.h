@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "InputActionValue.h"
 #include "SpaceShip.generated.h"
 
 UCLASS()
@@ -15,6 +16,8 @@ public:
 	// Sets default values for this pawn's properties
 	ASpaceShip();
 
+	UPROPERTY(EditAnywhere,Category="Move")
+	float Speed;
 
 
 protected:
@@ -34,15 +37,17 @@ protected:
 	UPROPERTY()
 	APlayerController* PC;
 
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void LookAtCursor();
 
-	void MoveUp(float Value);
+	void MoveUp(const FInputActionValue& InputValue);
 
-	void MoveRight(float Value);
+	void MoveRight(const FInputActionValue& InputValue);
 
 public:	
 	// Called every frame
@@ -50,5 +55,16 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	void Move(float DeltaTime);
 
+private:
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category="Move | Context",meta=(AllowPrivateAccess="true"))
+	TObjectPtr<class UInputMappingContext> IMC_Move;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Move | Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UInputAction> IA_Up;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Move | Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UInputAction> IA_Right;
 };
